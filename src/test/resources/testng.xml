@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-current.dtd">
+<suite name="Mobile Test Automation App" verbose="2" parallel="false" thread-count="1">
+
+    <!-- Listeners para TestNG -->
+    <listeners>
+        <!-- TestListener: Captura SUCESSO, FALHA, SKIPPED -->
+        <listener class-name="com.mobile.automation.listeners.TestListener"/>
+
+        <!-- ReportListener: Gera relatório Allure -->
+        <listener class-name="com.mobile.automation.listeners.ReportListener"/>
+    </listeners>
+
+    <!-- Suite de Testes de Login -->
+    <test name="Login Tests" enabled="true">
+        <classes>
+            <class name="com.mobile.test.tests.LoginTest"/>
+            <class name="com.mobile.test.tests.DataDrivenLoginTest"/>
+        </classes>
+    </test>
+
+    <!-- Suite de Testes de Home -->
+    <test name="Home Tests" enabled="true">
+        <classes>
+            <class name="com.mobile.test.tests.HomeTest"/>
+        </classes>
+    </test>
+
+    <!--
+    EXEMPLO: Para executar em paralelo, utilizar:
+    <suite name="Parallel Suite" parallel="classes" thread-count="3" verbose="2">
+        <test name="Test 1">
+            <classes>
+                <class name="com.mobile.test.tests.LoginTest"/>
+            </classes>
+        </test>
+        <test name="Test 2">
+            <classes>
+                <class name="com.mobile.test.tests.HomeTest"/>
+            </classes>
+        </test>
+    </suite>
+    -->
+
+</suite>
+

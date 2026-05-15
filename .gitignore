@@ -1,0 +1,68 @@
+# Git Ignore Configuration
+# Mobile Test Automation App
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.code-workspace
+.DS_Store
+
+# Test Reports
+allure-results/
+allure-report/
+test-output/
+surefire-reports/
+
+# Screenshots
+screenshots/
+target/screenshots/
+
+# Logs
+*.log
+logs/
+
+# Build
+build/
+out/
+dist/
+
+# Environment
+.env
+.env.local
+config.properties.local
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+
+# Gradle
+.gradle/
+gradle-app.setting
+gradlew
+gradlew.bat
+
