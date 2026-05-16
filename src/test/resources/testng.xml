@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-current.dtd">
-<suite name="Mobile Test Automation App" verbose="2" parallel="false" thread-count="1">
+<suite name="Mobile Test Automation App - HYBRID (Mobile + Web)" verbose="2" parallel="false" thread-count="1">
 
     <!-- Listeners para TestNG -->
     <listeners>
@@ -11,18 +11,41 @@
         <listener class-name="com.mobile.automation.listeners.ReportListener"/>
     </listeners>
 
-    <!-- Suite de Testes de Login -->
-    <test name="Login Tests" enabled="true">
+    <!-- ========== TESTES MOBILE ========== -->
+    <!-- Suite de Testes de Login Mobile -->
+    <test name="Login Tests (Mobile)" enabled="false">
         <classes>
             <class name="com.mobile.test.tests.LoginTest"/>
             <class name="com.mobile.test.tests.DataDrivenLoginTest"/>
         </classes>
     </test>
 
-    <!-- Suite de Testes de Home -->
-    <test name="Home Tests" enabled="true">
+    <!-- Suite de Testes de Home Mobile -->
+    <test name="Home Tests (Mobile)" enabled="false">
         <classes>
             <class name="com.mobile.test.tests.HomeTest"/>
+        </classes>
+    </test>
+
+    <!-- ========== TESTES WEB ========== -->
+    <!-- Suite de Testes de Login Web -->
+    <test name="Login Tests (Web)" enabled="true">
+        <classes>
+            <class name="com.mobile.test.tests.web.LoginTestWeb"/>
+        </classes>
+    </test>
+
+    <!-- Suite de Testes de Home Web -->
+    <test name="Home Tests (Web)" enabled="true">
+        <classes>
+            <class name="com.mobile.test.tests.web.HomeTestWeb"/>
+        </classes>
+    </test>
+
+    <!-- Suite de Testes de Settings Web -->
+    <test name="Settings Tests (Web)" enabled="true">
+        <classes>
+            <class name="com.mobile.test.tests.web.SettingsTestWeb"/>
         </classes>
     </test>
 
@@ -40,6 +63,8 @@
             </classes>
         </test>
     </suite>
+
+    NOTA: Configure test.type=web ou test.type=mobile em config.properties
     -->
 
 </suite>
