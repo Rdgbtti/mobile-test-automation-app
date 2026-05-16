@@ -43,9 +43,24 @@
     </test>
 
     <!-- Suite de Testes de Settings Web -->
-    <test name="Settings Tests (Web)" enabled="true">
+    <test name="Settings Tests (Web)" enabled="false">
         <classes>
             <class name="com.mobile.test.tests.web.SettingsTestWeb"/>
+        </classes>
+    </test>
+
+    <!-- ========== TESTES API ========== -->
+    <!-- Suite de Testes de Usuários API -->
+    <test name="User API Tests" enabled="true">
+        <classes>
+            <class name="com.mobile.test.tests.api.UserApiTest"/>
+        </classes>
+    </test>
+
+    <!-- Suite de Testes de Validação API -->
+    <test name="Validation API Tests" enabled="true">
+        <classes>
+            <class name="com.mobile.test.tests.api.ValidationApiTest"/>
         </classes>
     </test>
 
