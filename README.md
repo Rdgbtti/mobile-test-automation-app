@@ -1,125 +1,142 @@
+
 # Mobile Test Automation App
 
-Projeto de testes de automação mobile para aplicativos, utilizando o **Mobile Automation Framework** como dependência.
+Bem-vindo(a)! Este repositório contém testes de automação mobile baseados no Mobile Automation Framework. O objetivo deste README é ajudar alguém novo no projeto a configurar e rodar os testes de forma simples e rápida.
 
-## 📋 Estrutura
+> Notas rápidas
+- Este projeto usa Maven e o framework de automação mobile como dependência.
+- Testes e objetos de página estão em `src/test/java` e configurações em `src/test/resources`.
+
+## 👤 Sobre o autor
+
+Por favor, substitua os campos abaixo pelas suas informações reais (ou mantenha só o GitHub).
+
+- Nome: Rdgbtti
+- GitHub/Contato: https://github.com/Rdgbtti/Rdgbtti
+
+Se preferir, remova ou altere o nome acima — o email foi removido conforme solicitado.
+
+## 📋 Estrutura do projeto
 
 ```
 mobile-test-automation-app/
 ├── src/test/
-│   ├── java/
-│   │   ├── pages/          → Page Objects do aplicativo
-│   │   └── tests/          → Classes de teste
-│   └── resources/          → Configurações e recursos
-├── pom.xml                 → Definição do projeto Maven
-├── README.md               → Este arquivo
-└── .gitignore              → Git ignore rules
+│   ├── java/         -> Page objects e testes
+│   └── resources/    -> Arquivos de configuração (config.properties, log4j2, testng.xml)
+├── pom.xml           -> Projeto Maven
+├── README.md         -> Este arquivo
+└── .gitignore
 ```
 
-## 🚀 Como Usar
+## ✅ Checklist rápido (o que farei por você)
 
-### 1. Pré-requisitos
+1. Verificar pré-requisitos (Java, Maven, Appium/Android SDK).
+2. Editar `src/test/resources/config.properties` com seus caminhos e devices.
+3. Iniciar Appium (exemplos para PowerShell/Windows e npm).
+4. Executar a suíte de testes com Maven.
 
-- Java 17+
-- Maven 3.6+
-- Appium Server instalado
-- Android SDK configurado (para testes Android)
+## 🚀 Começando (passo a passo)
 
-### 2. Instalar Dependências
+1) Pré-requisitos
 
-```bash
+- Java 17+ (verifique com `java -version`)
+- Maven 3.6+ (verifique com `mvn -v`)
+- Node.js + Appium (opcional: Appium Desktop)
+- Android SDK configurado e variáveis de ambiente (ANDROID_HOME)
+
+2) Instalar dependências do projeto
+
+No PowerShell (na raiz do projeto):
+
+```powershell
 mvn clean install
 ```
 
-### 3. Configurar Ambiente
+3) Configurar `config.properties`
 
-Editar `src/test/resources/config.properties`:
+Abra `src/test/resources/config.properties` e ajuste as propriedades importantes, por exemplo:
 
 ```properties
-# Platform
+# Ambiente
+environment=staging
 platform=android
-app.path=/path/to/app.apk
+app.path=C:\caminho\para\app.apk
 
-# Appium Server
-appium.server.url=http://localhost:4723
+# Appium
+appium.server.url=http://localhost
 appium.server.port=4723
+
+# Android
+android.device.name=emulator-5554
+android.app.package=com.example.app
+android.app.activity=.MainActivity
 
 # Timeouts
 implicit.wait=10
 explicit.wait=15
 ```
 
-### 4. Iniciar Appium Server
+Dica: no Windows use caminhos com \ (escape) ou caminhos sem espaços.
 
-```bash
+4) Iniciar Appium
+
+Opção A — Appium instalado via npm (PowerShell):
+
+```powershell
+npm install -g appium
 appium
 ```
 
-### 5. Executar Testes
+Opção B — Appium Desktop: abra a aplicação e clique em "Start Server".
 
-```bash
-# Todos os testes
+Se quiser checar dependências:
+
+```powershell
+appium-doctor
+```
+
+5) Executar testes (PowerShell)
+
+```powershell
+# Rodar todos os testes
 mvn clean test
 
-# Suite específica
-mvn clean test -Dtest=LoginTest
+# Rodar um teste específico
+mvn -Dtest=LoginTest test
 
-# Com Allure Report
+# Gerar relatório Allure (se configurado)
 mvn clean test
 mvn allure:report
 mvn allure:serve
 ```
 
-## 📁 Criando Novos Testes
+Allure (quando gerado) geralmente fica em: `target/site/allure-maven-plugin/index.html`.
 
-### 1. Criar Page Object
+## ✍️ Criando novos testes (resumo)
+
+1. Criar um Page Object em `src/test/java/.../pages` seguindo o padrão Page Object Model.
+2. Criar uma classe de teste em `src/test/java/.../tests` estendendo `BaseTest`.
+3. Use `WaitUtils` e as utilidades do framework para sincronização e capturas de tela.
+
+Exemplo resumido de Page Object:
 
 ```java
-package com.mobile.test.pages;
-
-import com.mobile.automation.base.BasePage;
-import com.mobile.automation.utils.WaitUtils;
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-
+// Exemplo simplificado
 public class MyPage extends BasePage {
-    
     @FindBy(id = "com.app:id/my_element")
-    private org.openqa.selenium.WebElement myElement;
-    
-    public MyPage(AppiumDriver driver, WaitUtils waitUtils) {
-        super(driver, waitUtils);
-        PageFactory.initElements(driver, this);
-    }
-    
+    private WebElement myElement;
+
     public void clickMyElement() {
         click(myElement);
     }
 }
 ```
 
-### 2. Criar Teste
+Exemplo resumido de Teste:
 
 ```java
-package com.mobile.test.tests;
-
-import com.mobile.automation.base.BaseTest;
-import com.mobile.automation.integration.JiraIssue;
-import com.mobile.test.pages.MyPage;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
-import org.testng.annotations.Test;
-
-@Feature("Minha Funcionalidade")
 public class MyTest extends BaseTest {
-    
     @Test
-    @Story("Teste de exemplo")
-    @Description("Validar comportamento do meu elemento")
-    @JiraIssue("PROJ-123")
     public void testMyBehavior() {
         MyPage page = new MyPage(driver, waitUtils);
         page.clickMyElement();
@@ -127,105 +144,61 @@ public class MyTest extends BaseTest {
 }
 ```
 
-## 🔧 Configurações
+## 🔧 Configurações importantes (config.properties)
 
-### config.properties
+Um trecho típico do arquivo de configuração:
 
 ```properties
-# Environment
 environment=staging
-platform=android                      # android ou ios
-app.path=/path/to/app.apk
+platform=android
+app.path=C:\caminho\para\app.apk
 
-# Appium Server
 appium.server.url=http://localhost
 appium.server.port=4723
-appium.start.retry=3
-appium.start.timeout=30000
 
-# Android Capabilities
 android.device.name=emulator-5554
 android.app.package=com.example.app
 android.app.activity=.MainActivity
 
-# iOS Capabilities (se necessário)
-ios.device.name=iPhone Simulator
-ios.platform.version=16.0
-
-# Timeouts
 implicit.wait=10
 explicit.wait=15
 
-# Screenshots
 screenshot.on.failure=true
 screenshot.path=target/screenshots
-
-# JIRA Integration (opcional)
-jira.enabled=false
-jira.url=https://your-jira.atlassian.net
-jira.user=user@example.com
-jira.token=your_api_token
 ```
 
-## 📊 Relatórios
+Personalize conforme seu projeto e device.
 
-### Allure Report
+## 🐞 Troubleshooting rápido
 
-Após executar os testes:
+- Appium não conecta: rode `appium-doctor` e verifique portas e variáveis de ambiente.
+- Emulador não aparece: verifique o Android SDK e rode `adb devices`.
+- Elemento não encontrado: ajuste localizadores, aumente timeouts e use inspector (uiautomatorviewer / Appium Inspector).
 
-```bash
-# Gerar e servir relatório
-mvn allure:serve
+Comandos úteis no PowerShell:
 
-# Ou gerar apenas
-mvn allure:report
+```powershell
+adb devices
+emulator -list-avds
+emulator -avd NomeDoEmulator
 ```
 
-Os relatórios estarão em: `target/site/allure-maven-plugin/index.html`
+## 📖 Documentação adicional
 
-## 🐛 Troubleshooting
+- Framework (se aplicável): `../mobile-automation-framework-java/README.md`
+- Appium setup: `../mobile-automation-framework-java/APPIUM_SETUP.md`
 
-### Appium não conecta
+## 🤝 Como contribuir
 
-```bash
-# Verificar se Appium está rodando
-appium-doctor
+1. Faça um fork / crie uma branch: `git checkout -b feature/minha-mudanca`
+2. Faça commits pequenos e descritivos
+3. Abra um Pull Request explicando o propósito das mudanças
 
-# Verificar portas
-netstat -an | grep 4723
-```
+## 📝 Boas práticas
 
-### Elemento não encontrado
-
-- Verificar localizadores em `config.properties`
-- Usar `adb shell`para inspecionar aplicativo
-- Aumentar timeouts em `WaitUtils`
-
-### Driver não inicializa
-
-- Verificar se devicenome está correto
-- Confirmar que APK/IPA está no caminho correto
-- Validar capabilities em `DriverFactory`
-
-## 📖 Documentação do Framework
-
-Para mais informações sobre o framework, consulte:
-- Framework: `../mobile-automation-framework-java/README.md`
-- Setup Appium: `../mobile-automation-framework-java/APPIUM_SETUP.md`
-
-## 🤝 Contribuindo
-
-1. Crie uma branch: `git checkout -b feature/meu-teste`
-2. Commit suas mudanças: `git commit -am 'Adicionar novo teste'`
-3. Push para a branch: `git push origin feature/meu-teste`
-4. Envie um Pull Request
-
-## 📝 Padrões
-
-- **Page Object Model (POM)**: Todas as páginas em `pages/`
-- **Naming**: Testes terminam com `Test.java`, Pages com `Page.java`
-- **Localizadores**: Utilizar `@FindBy` do Page Factory
-- **Assertions**: Usar `AssertionUtil` do framework
+- Use Page Object Model
+- Nomeie testes com sufixo `Test`
+- Mantenha localizadores centralizados nas páginas
 
 ## 📄 Licença
 
